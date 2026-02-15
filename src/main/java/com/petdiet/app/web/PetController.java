@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -13,11 +14,12 @@ import jakarta.validation.constraints.NotNull;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/pet")
 public class PetController {
 
     private final WeightService weightService;
 
-    @PostMapping("/api/v1/pet/weight")
+    @PostMapping("/weight")
     public WeightResponse saveWeight(@RequestBody @Valid WeightRequest request) {
         try {
             Double updatedWeight = weightService.updateOrCreateWeight(
@@ -31,7 +33,7 @@ public class PetController {
         } catch (IllegalStateException e) {
             return new WeightResponse("failure: " + e.getMessage(), null);
         } catch (Exception e) {
-            return new WeightResponse("failure: 서버 오류 발생", null);
+            return new WeightResponse("Unknown failure: " + e.getMessage(), null);
         }
     }
     @Data

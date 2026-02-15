@@ -2,6 +2,8 @@ package com.petdiet.app.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Pet {
 
     private String name;
     private String breed;
+    private Double weight;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -27,5 +30,10 @@ public class Pet {
     public void setMember(Member member) {
         this.member = member;
         member.getPets().add(this);
+    }
+
+    public void updateWeight(Double weightValue) {
+        this.weight = weightValue;
+        weights.add(PetWeight.createPetWeight(this, weightValue));
     }
 }

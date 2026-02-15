@@ -16,12 +16,4 @@ public class PetRepository {
 
     public Pet findOne(Long id) { return em.find(Pet.class, id); }
 
-    public List<PetWeight> findTodayWeight(Long petId, LocalDate date) {
-        return em.createQuery("select pw from PetWeight pw where pw.pet.id = :petId and pw.date = :date", PetWeight.class)
-                .setParameter("petId", petId)
-                .setParameter("date", date)
-                .getResultList();
-    }
-
-    public void saveWeight(PetWeight pw) { em.persist(pw); }
 }
